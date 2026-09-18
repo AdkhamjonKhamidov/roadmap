@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap — C++ DSA / TS+React Dev</title>
+<meta name="description" content="Personal software engineering roadmap: C++ for DSA, TypeScript/React/Node for development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: dark;
+    --bg: #0b0e14;
+    --panel: #11151d;
+    --panel-2: #161b26;
+    --border: #232a3a;
+    --border-soft: #1a2030;
+    --text: #e8ebf1;
+    --muted: #8891a4;
+    --muted-2: #5d6578;
+    --accent: #e9a23b;
+    --accent-dim: #7a5b28;
+    --blue: #5fa8ff;
+    --done: #57c278;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--accent-dim); color: #fff; }
+
+  a { color: var(--blue); }
+
+  .topbar{
+    position: sticky; top:0; z-index: 20;
+    background: rgba(11,14,20,.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .topbar-inner{
+    max-width: 1040px; margin: 0 auto;
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .prompt{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .prompt .cmd{ color: var(--accent); }
+  .prompt .cursor{
+    display:inline-block; width: 7px; height: 14px;
+    background: var(--accent);
+    margin-left: 2px; vertical-align: -2px;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .overall{
+    flex: 1;
+    display:flex; align-items:center; gap:10px;
+    min-width: 160px;
+  }
+  .overall-bar{
+    flex:1; height: 6px; border-radius: 99px;
+    background: var(--panel-2);
+    overflow:hidden;
+    border: 1px solid var(--border-soft);
+  }
+  .overall-fill{
+    height:100%; width:0%;
+    background: linear-gradient(90deg, var(--accent), var(--done));
+    transition: width .25s ease;
+  }
+  .overall-num{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  header.hero{
+    max-width: 1040px; margin: 0 auto;
+    padding: 46px 20px 8px;
+  }
+  header.hero h1{
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  header.hero p.lede{
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0 0 26px;
+    font-size: 15.5px;
+  }
+
+  .stack-card{
+    max-width: 1040px; margin: 0 auto 30px;
+    padding: 0 20px;
+  }
+  .stack-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--border-soft);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .stack-cell{
+    background: var(--panel);
+    padding: 14px 16px;
+  }
+  .stack-cell .k{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 6px;
+  }
+  .stack-cell .v{
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .stack-cell.locked .v{ color: var(--text); }
+  .stack-cell.later .v{ color: var(--muted); }
+
+  .layout{
+    max-width: 1040px; margin: 0 auto;
+    padding: 0 20px 80px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 26px;
+    align-items: start;
+  }
+
+  nav.phases{
+    position: sticky; top: 70px;
+    display: flex; flex-direction: column;
+    gap: 3px;
+    border-left: 1px solid var(--border-soft);
+    padding-left: 14px;
+  }
+  .phase-btn{
+    all: unset;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px;
+    border-radius: 7px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .phase-btn:hover{ background: var(--panel); color: var(--text); }
+  .phase-btn.active{
+    background: var(--panel-2);
+    color: var(--text);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+  .phase-btn .tag{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted-2);
+    min-width: 20px;
+  }
+  .phase-btn.active .tag{ color: var(--accent); }
+  .phase-btn .pct{
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted-2);
+  }
+  .phase-btn.complete .pct{ color: var(--done); }
+
+  section.panel{
+    display: none;
+    background: var(--panel);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 26px 26px 20px;
+  }
+  section.panel.active{ display: block; }
+
+  .panel-head{
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 14px; margin-bottom: 6px; flex-wrap: wrap;
+  }
+  .panel-head h2{
+    font-size: 19px; margin: 0;
+  }
+  .panel-head .when{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .panel-note{
+    color: var(--muted);
+    font-size: 14px;
+    margin: 6px 0 20px;
+    max-width: 68ch;
+  }
+
+  .group-title{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted-2);
+    margin: 22px 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .group-title:first-of-type{ margin-top: 4px; }
+
+  .item{
+    display: flex; align-items: flex-start; gap: 11px;
+    padding: 7px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .item:hover{ background: var(--panel-2); }
+  .item input{
+    margin-top: 4px;
+    width: 16px; height: 16px;
+    accent-color: var(--accent);
+    flex: 0 0 auto;
+  }
+  .item span{ font-size: 14.5px; }
+  .item.done span{ color: var(--muted); text-decoration: line-through; text-decoration-color: var(--muted-2); }
+
+  .item.current{
+    background: rgba(233,162,59,.08);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+  .item.current span{ font-weight: 500; }
+  .here{
+    display: inline-block;
+    margin-left: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 2px 7px;
+    border-radius: 99px;
+    vertical-align: 1px;
+  }
+
+  .target{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--blue);
+    margin: 6px 0 4px 4px;
+  }
+
+  .callout{
+    margin-top: 22px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--panel-2);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .callout strong{ color: var(--accent); }
+
+  .chip-wrap{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 10px 0 4px;
+  }
+  .item.chip{
+    display: inline-flex; align-items: center; gap: 7px;
+    width: auto;
+    padding: 6px 12px 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+  }
+  .item.chip input{ margin: 0; width: 13px; height: 13px; }
+  .item.chip span{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .item.chip:hover{ border-color: var(--muted-2); background: var(--panel-2); }
+  .item.chip.done{ border-color: var(--done); background: rgba(87,194,120,.08); }
+  .item.chip.done span{ color: var(--done); text-decoration: none; }
+
+  .foot-actions{
+    max-width: 1040px; margin: -40px auto 60px;
+    padding: 0 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .foot-actions p{
+    color: var(--muted-2); font-size: 12.5px; margin:0;
+    font-family: var(--mono);
+  }
+  button.reset{
+    all: unset; cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 7px;
+  }
+  button.reset:hover{ color: var(--text); border-color: var(--muted-2); }
+
+  @media (max-width: 720px){
+    .layout{ grid-template-columns: 1fr; }
+    nav.phases{
+      position: static;
+      flex-direction: row;
+      overflow-x: auto;
+      border-left: none;
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0 0 10px;
+      gap: 6px;
+    }
+    .phase-btn{ flex: 0 0 auto; }
+    .phase-btn .pct{ display:none; }
+    .topbar-inner{ flex-wrap: wrap; }
+    .overall{ order: 3; width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .prompt .cursor{ animation: none; }
+    .overall-fill{ transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="prompt"><span class="cmd">~/roadmap</span> $ status<span class="cursor"></span></div>
+    <div class="overall">
+      <div class="overall-bar"><div class="overall-fill" id="overallFill"></div></div>
+      <div class="overall-num" id="overallNum">0/0</div>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <h1>C++ for interviews. TypeScript for everything you ship.</h1>
+  <p class="lede">You already have a DSA foundation and a web course in progress — this isn't a restart, it's a sequence. Finish the course, ship a real project, keep C++ on maintenance, then layer on systems work and AI.</p>
+</header>
+
+<div class="stack-card">
+  <div class="stack-grid">
+    <div class="stack-cell locked"><div class="k">DSA / interviews</div><div class="v">C++</div></div>
+    <div class="stack-cell locked"><div class="k">Frontend</div><div class="v">JS → TS + React</div></div>
+    <div class="stack-cell locked"><div class="k">Backend</div><div class="v">Node.js / Express</div></div>
+    <div class="stack-cell locked"><div class="k">Database</div><div class="v">PostgreSQL</div></div>
+    <div class="stack-cell locked"><div class="k">Version control</div><div class="v">Git / GitHub</div></div>
+    <div class="stack-cell locked"><div class="k">Deployment</div><div class="v">Docker + AWS</div></div>
+    <div class="stack-cell later"><div class="k">AI</div><div class="v">After you can ship web apps</div></div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="phases" id="phaseNav"></nav>
+
+  <div id="panels">
+
+    <section class="panel" data-phase="course">
+      <div class="panel-head">
+        <h2>Finish the web course</h2>
+        <span class="when">now — REST APIs &amp; API auth</span>
+      </div>
+      <p class="panel-note">You're mid-syllabus: past the JS/DOM/backend fundamentals, currently in REST APIs and API authentication, with databases and React still ahead of you in the course itself. Finish it in order — the remaining sections teach PostgreSQL and auth directly, so you won't need to bolt those on separately later.</p>
+
+      <div class="group-title">Done</div>
+      <label class="item done"><input type="checkbox" checked><span>HTML5, CSS3, Flexbox &amp; Grid, Bootstrap 5</span></label>
+      <label class="item done"><input type="checkbox" checked><span>JavaScript ES6 fundamentals</span></label>
+      <label class="item done"><input type="checkbox" checked><span>The DOM &amp; jQuery</span></label>
+      <label class="item done"><input type="checkbox" checked><span>The Unix command line</span></label>
+      <label class="item done"><input type="checkbox" checked><span>Git / GitHub</span></label>
+      <label class="item done"><input type="checkbox" checked><span>Node.js</span></label>
+      <label class="item done"><input type="checkbox" checked><span>Express.js</span></label>
+      <label class="item done"><input type="checkbox" checked><span>EJS</span></label>
+
+      <div class="group-title">You are here</div>
+      <label class="item current"><input type="checkbox"><span>REST APIs &amp; API authentication<span class="here">in progress</span></span></label>
+
+      <div class="group-title">Still ahead in the course</div>
+      <label class="item"><input type="checkbox"><span>Databases</span></label>
+      <label class="item"><input type="checkbox"><span>SQL</span></label>
+      <label class="item"><input type="checkbox"><span>PostgreSQL</span></label>
+      <label class="item"><input type="checkbox"><span>Authentication &amp; security (user login)</span></label>
+      <label class="item"><input type="checkbox"><span>React.js &amp; React Hooks</span></label>
+      <label class="item"><input type="checkbox"><span>Deployment</span></label>
+
+      <div class="callout">The course ends with a Web3 / blockchain / NFT section. Skip or skim it — it's not part of your stack and isn't worth the time. Don't add AWS, Kubernetes, or LangChain on top of this course either; fundamentals first, everything else has a later phase.</div>
+    </section>
+
+    <section class="panel" data-phase="project1">
+      <div class="panel-head">
+        <h2>Project #1 — full-stack app</h2>
+        <span class="when">right after the course</span>
+      </div>
+      <p class="panel-note">Not a tutorial clone. Frontend → backend API → PostgreSQL → auth, deployed, with one AI feature bolted on. Example: a student study/planning app with accounts, courses, assignments, deadlines, a dashboard, and AI-generated study plans.</p>
+
+      <div class="group-title">Build</div>
+      <label class="item"><input type="checkbox"><span>Pick a real problem — not a tutorial clone</span></label>
+      <label class="item"><input type="checkbox"><span>Frontend talking to a backend API</span></label>
+      <label class="item"><input type="checkbox"><span>PostgreSQL persistence</span></label>
+      <label class="item"><input type="checkbox"><span>Authentication</span></label>
+      <label class="item"><input type="checkbox"><span>One AI-powered feature (e.g. plan generation)</span></label>
+      <label class="item"><input type="checkbox"><span>Deploy frontend and backend</span></label>
+      <label class="item"><input type="checkbox"><span>Push it to GitHub with a real README</span></label>
+    </section>
+
+    <section class="panel" data-phase="apps">
+      <div class="panel-head">
+        <h2>Applications &amp; outreach</h2>
+        <span class="when">starts after project #1, then ongoing</span>
+      </div>
+      <p class="panel-note">Treat this like DSA: a standing habit, not a one-time task. Start with UMBC research once you have a project to point to, then ramp up internship volume once Project #2 is underway.</p>
+
+      <div class="group-title">UMBC research — right after project #1</div>
+      <label class="item"><input type="checkbox"><span>Find 3–5 UMBC CS/DS faculty doing web, systems, or AI research</span></label>
+      <label class="item"><input type="checkbox"><span>Email each professor a short note with your GitHub/portfolio link</span></label>
+      <label class="item"><input type="checkbox"><span>Apply to UMBC's Undergraduate Research Award (URA)</span></label>
+      <label class="item"><input type="checkbox"><span>Apply to 1–2 summer REU programs (nationwide, not just UMBC)</span></label>
+      <div class="target">target: 3–5 faculty emails + 1–2 formal research applications this cycle</div>
+
+      <div class="group-title">Internships — ramps up during project #2</div>
+      <label class="item"><input type="checkbox"><span>Software engineering intern roles</span></label>
+      <label class="item"><input type="checkbox"><span>Backend / full-stack intern roles</span></label>
+      <label class="item"><input type="checkbox"><span>Cloud / DevOps intern roles (once you've touched Docker/AWS)</span></label>
+      <div class="target">target: 15–20 applications/week once you have a resume + 1 deployed project; aim for 100+ across the cycle</div>
+
+      <div class="group-title">Before graduation — broaden the net</div>
+      <label class="item"><input type="checkbox"><span>Include startups and smaller companies, not just big tech</span></label>
+      <label class="item"><input type="checkbox"><span>Attend career fairs and recruiting events</span></label>
+      <label class="item"><input type="checkbox"><span>Reach out to alumni for referrals</span></label>
+      <div class="target">target: 150–200+ total applications, plus 5–10 research/alumni contacts</div>
+
+      <div class="callout">Volume matters less than fit — tailor the resume bullet to the role, but don't let tailoring slow down the weekly count. A rejected application teaches you nothing; a fast, imperfect one keeps the pipeline full.</div>
+    </section>
+
+    <section class="panel" data-phase="dsa">
+      <div class="panel-head">
+        <h2>DSA — maintenance mode</h2>
+        <span class="when">ongoing, in parallel</span>
+      </div>
+      <p class="panel-note">You already took a real DSA course in C++ — don't relearn syntax, just keep the muscle warm while web dev is the priority. Start at 3–5 problems a week and let that climb.</p>
+
+      <div class="group-title">Weekly habit</div>
+      <label class="item"><input type="checkbox"><span>3–5 C++ problems this week</span></label>
+      <label class="item"><input type="checkbox"><span>Practice explaining a solution out loud</span></label>
+
+      <div class="group-title">Patterns to keep sharp</div>
+      <div class="chip-wrap">
+        <label class="item chip"><input type="checkbox"><span>arrays</span></label>
+        <label class="item chip"><input type="checkbox"><span>strings</span></label>
+        <label class="item chip"><input type="checkbox"><span>hash maps</span></label>
+        <label class="item chip"><input type="checkbox"><span>two pointers</span></label>
+        <label class="item chip"><input type="checkbox"><span>sliding window</span></label>
+        <label class="item chip"><input type="checkbox"><span>binary search</span></label>
+        <label class="item chip"><input type="checkbox"><span>stacks</span></label>
+        <label class="item chip"><input type="checkbox"><span>linked lists</span></label>
+        <label class="item chip"><input type="checkbox"><span>trees</span></label>
+        <label class="item chip"><input type="checkbox"><span>BFS/DFS</span></label>
+        <label class="item chip"><input type="checkbox"><span>heaps</span></label>
+        <label class="item chip"><input type="checkbox"><span>graphs</span></label>
+        <label class="item chip"><input type="checkbox"><span>DP</span></label>
+      </div>
+
+      <div class="group-title">Milestones</div>
+      <label class="item"><input type="checkbox"><span>Complete the core NeetCode-style patterns</span></label>
+      <label class="item"><input type="checkbox"><span>Reach 50 quality problems</span></label>
+      <label class="item"><input type="checkbox"><span>Reach 100 quality problems</span></label>
+      <label class="item"><input type="checkbox"><span>Reach 150+ quality problems</span></label>
+      <label class="item"><input type="checkbox"><span>Start timed medium problems</span></label>
+    </section>
+
+    <section class="panel" data-phase="tsreact">
+      <div class="panel-head">
+        <h2>TypeScript + React</h2>
+        <span class="when">after project #1</span>
+      </div>
+      <p class="panel-note">You don't need to be a JavaScript wizard first — Project #1 already proved you can build. This phase turns your stack into C++ for DSA plus TypeScript/React/Node for development, which is a perfectly reasonable long-term combination.</p>
+
+      <div class="group-title">Learn</div>
+      <label class="item"><input type="checkbox"><span>TypeScript fundamentals</span></label>
+      <label class="item"><input type="checkbox"><span>Convert a piece of Project #1 to TypeScript</span></label>
+      <label class="item"><input type="checkbox"><span>React fundamentals</span></label>
+      <label class="item"><input type="checkbox"><span>Rebuild or extend a UI in React</span></label>
+    </section>
+
+    <section class="panel" data-phase="project2">
+      <div class="panel-head">
+        <h2>Project #2 — systems-oriented</h2>
+        <span class="when">while learning TS/React finishes</span>
+      </div>
+      <p class="panel-note">Substantially more backend-heavy than Project #1. This is where you learn how real software systems fit together, not just how to make webpages.</p>
+
+      <div class="group-title">Build</div>
+      <label class="item"><input type="checkbox"><span>REST API</span></label>
+      <label class="item"><input type="checkbox"><span>PostgreSQL</span></label>
+      <label class="item"><input type="checkbox"><span>Redis</span></label>
+      <label class="item"><input type="checkbox"><span>Background jobs</span></label>
+      <label class="item"><input type="checkbox"><span>Authentication</span></label>
+      <label class="item"><input type="checkbox"><span>Automated tests</span></label>
+      <label class="item"><input type="checkbox"><span>Logging</span></label>
+      <label class="item"><input type="checkbox"><span>Dockerize it</span></label>
+      <label class="item"><input type="checkbox"><span>Deploy it</span></label>
+    </section>
+
+    <section class="panel" data-phase="ai">
+      <div class="panel-head">
+        <h2>AI layer</h2>
+        <span class="when">last</span>
+      </div>
+      <p class="panel-note">The goal isn't to become an ML engineer — it's to be a software engineer who can build AI-enabled applications on top of everything above.</p>
+
+      <div class="group-title">Learn</div>
+      <label class="item"><input type="checkbox"><span>LLM APIs</span></label>
+      <label class="item"><input type="checkbox"><span>Embeddings</span></label>
+      <label class="item"><input type="checkbox"><span>RAG and vector databases</span></label>
+      <label class="item"><input type="checkbox"><span>Function / tool calling</span></label>
+      <label class="item"><input type="checkbox"><span>Basic AI evaluation</span></label>
+      <label class="item"><input type="checkbox"><span>Cost and latency tradeoffs</span></label>
+      <label class="item"><input type="checkbox"><span>Basic AI security</span></label>
+    </section>
+
+  </div>
+</div>
+
+<div class="foot-actions">
+  <p>saved locally in this browser</p>
+  <button class="reset" id="resetBtn">reset all</button>
+</div>
+
+<script>
+(function(){
+  var KEY = "roadmap-cpp-ts-v3";
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var navEl = document.getElementById('phaseNav');
+
+  var meta = {
+    course:   { tag: '01', label: 'Web course' },
+    project1: { tag: '02', label: 'Project #1' },
+    apps:     { tag: '~',  label: 'Applications' },
+    dsa:      { tag: '~',  label: 'DSA (ongoing)' },
+    tsreact:  { tag: '03', label: 'TypeScript + React' },
+    project2: { tag: '04', label: 'Project #2' },
+    ai:       { tag: '05', label: 'AI layer' }
+  };
+
+  var navButtons = {};
+  panels.forEach(function(panel){
+    var id = panel.dataset.phase;
+    var btn = document.createElement('button');
+    btn.className = 'phase-btn';
+    btn.dataset.phase = id;
+    btn.innerHTML = '<span class="tag">' + meta[id].tag + '</span><span>' + meta[id].label + '</span><span class="pct"></span>';
+    btn.addEventListener('click', function(){ activate(id); });
+    navEl.appendChild(btn);
+    navButtons[id] = btn;
+  });
+
+  function activate(id){
+    panels.forEach(function(p){ p.classList.toggle('active', p.dataset.phase === id); });
+    Object.keys(navButtons).forEach(function(k){ navButtons[k].classList.toggle('active', k === id); });
+    try { localStorage.setItem(KEY + '-active', id); } catch(e){}
+  }
+
+  var allBoxes = Array.prototype.slice.call(document.querySelectorAll('.item input[type="checkbox"]'));
+
+  function stateKeyFor(box, i){ return 'chk-' + i; }
+
+  function save(){
+    var state = allBoxes.map(function(b){ return b.checked; });
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+  }
+
+  function updateCounts(){
+    var totalDone = 0, total = allBoxes.length;
+    panels.forEach(function(panel){
+      var boxes = Array.prototype.slice.call(panel.querySelectorAll('input[type="checkbox"]'));
+      var done = boxes.filter(function(b){ return b.checked; }).length;
+      totalDone += done;
+      var pctEl = navButtons[panel.dataset.phase].querySelector('.pct');
+      pctEl.textContent = boxes.length ? done + '/' + boxes.length : '';
+      navButtons[panel.dataset.phase].classList.toggle('complete', boxes.length > 0 && done === boxes.length);
+    });
+    document.getElementById('overallNum').textContent = totalDone + '/' + total;
+    document.getElementById('overallFill').style.width = total ? (totalDone / total * 100) + '%' : '0%';
+  }
+
+  allBoxes.forEach(function(box){
+    box.addEventListener('change', function(){
+      box.closest('.item').classList.toggle('done', box.checked);
+      updateCounts();
+      save();
+    });
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if (!confirm('Reset every checked item?')) return;
+    allBoxes.forEach(function(b){ b.checked = false; b.closest('.item').classList.remove('done'); });
+    updateCounts();
+    save();
+  });
+
+  // restore
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (Array.isArray(saved)) {
+      allBoxes.forEach(function(b, i){
+        if (saved[i]) { b.checked = true; b.closest('.item').classList.add('done'); }
+      });
+    }
+  } catch(e){}
+
+  var activeSaved = null;
+  try { activeSaved = localStorage.getItem(KEY + '-active'); } catch(e){}
+  activate(activeSaved && meta[activeSaved] ? activeSaved : 'course');
+
+  updateCounts();
+})();
+</script>
+
+</body>
+</html>
